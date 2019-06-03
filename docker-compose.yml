@@ -2,6 +2,19 @@ version: '3.2'
 
 services:
 
+  # https://github.com/duaraghav8/Ethlint
+  ethlint:
+    container_name: eth-ci.ethlint
+    image: eth-ci.ethlint
+    build:
+      context: ./tools/ethlint
+    environment:
+      - ETHLINT_CONFIG_FILE=${ETHLINT_CONFIG_FILE}
+      - ETHLINT_CONTRACTS_DIR=${ETHLINT_CONTRACTS_DIR}
+    volumes:
+      - ${TRUFFLE_PROJECT_PATH}:/app
+      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+
   # https://github.com/trufflesuite/ganache-cli
   ganache:
     container_name: eth-ci.ganache-cli
