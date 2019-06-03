@@ -1,0 +1,30 @@
+version: '3.2'
+
+services:
+
+  # https://github.com/trufflesuite/ganache-cli
+  ganache:
+    container_name: eth-ci.ganache-cli
+    image: eth-ci.ganache-cli
+    build:
+      context: ./tools/ganache-cli
+    command: ganache-cli --accounts=10 --defaultBalanceEther=1000
+    volumes:
+      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+  
+  # https://github.com/trufflesuite/truffle
+  truffle:
+    container_name: eth-ci.truffle
+    image: eth-ci.truffle
+    build:
+      context: ./tools/truffle
+    stdin_open: true
+    tty: true
+    depends_on:
+      - ganache
+    volumes:
+      # mount the docker sock from the host 
+      # so the container can execute docker commands
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${TRUFFLE_PROJECT_PATH}:/app
+      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
