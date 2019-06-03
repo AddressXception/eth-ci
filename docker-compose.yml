@@ -24,6 +24,19 @@ services:
     command: ganache-cli --accounts=10 --defaultBalanceEther=1000
     volumes:
       - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+
+  # https://github.com/protofire/solhint
+  solhint:
+    container_name: eth-ci.solhint
+    image: eth-ci.solhint
+    build:
+      context: ./tools/solhint
+    environment:
+      - SOLHINT_CONFIG_FILE=${SOLHINT_CONFIG_FILE}
+      - SOLHINT_CONTRACTS_EXECUTION_PATH=${SOLHINT_CONTRACTS_EXECUTION_PATH}
+    volumes:
+      - ${TRUFFLE_PROJECT_PATH}:/app
+      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
   
   # https://github.com/trufflesuite/truffle
   truffle:
