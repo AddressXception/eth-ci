@@ -15,13 +15,25 @@ services:
       - ${TRUFFLE_PROJECT_PATH}:/app
       - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
 
+  # https://github.com/crytic/eth-security-toolbox
+  eth-security-toolbox:
+    container_name: eth-ci.eth-security-toolbox
+    image: eth-ci.eth-security-toolbox
+    build:
+      context: ./tools/eth-security-toolbox
+    environment:
+      - SOLC_VERSION=${SOLC_VERSION}
+    volumes:
+      - ${TRUFFLE_PROJECT_PATH}:/home/ethsec/app
+      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/home/ethsec/logs:rw
+
   # https://github.com/trufflesuite/ganache-cli
   ganache:
     container_name: eth-ci.ganache-cli
     image: eth-ci.ganache-cli
     build:
       context: ./tools/ganache-cli
-    command: ganache-cli --accounts=10 --defaultBalanceEther=1000
+    command: ganache-cli ${GANACHE_CLI_FLAGS}
     volumes:
       - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
 
