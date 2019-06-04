@@ -25,6 +25,19 @@ services:
     volumes:
       - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
 
+  # https://github.com/eth-sri/securify
+  securify:
+    container_name: eth-ci.securify
+    image: eth-ci.securify
+    build:
+      context: ./tools/securify
+    command: securify --truffle
+    depends_on:
+      - truffle
+    volumes:
+      - ${TRUFFLE_PROJECT_PATH}:/project:rw
+      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+
   # https://github.com/protofire/solhint
   solhint:
     container_name: eth-ci.solhint
