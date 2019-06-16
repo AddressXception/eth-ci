@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo "configuring user"
+./configure-user.sh
+chown -R $DOCKER_USER:$DOCKER_GROUP $VOLUME || true
+
 cd /app
 
 # clear the file

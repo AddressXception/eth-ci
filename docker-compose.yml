@@ -2,30 +2,30 @@ version: '3.2'
 
 services:
 
-  # https://github.com/duaraghav8/Ethlint
-  ethlint:
-    container_name: eth-ci.ethlint
-    image: eth-ci.ethlint
-    build:
-      context: ./tools/ethlint
-    environment:
-      - ETHLINT_CONFIG_FILE=${ETHLINT_CONFIG_FILE}
-      - ETHLINT_CONTRACTS_DIR=${ETHLINT_CONTRACTS_DIR}
-    volumes:
-      - ${TRUFFLE_PROJECT_PATH}:/app
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+  # # https://github.com/duaraghav8/Ethlint
+  # ethlint:
+  #   container_name: eth-ci.ethlint
+  #   image: eth-ci.ethlint
+  #   build:
+  #     context: ./tools/ethlint
+  #   environment:
+  #     - ETHLINT_CONFIG_FILE=${ETHLINT_CONFIG_FILE}
+  #     - ETHLINT_CONTRACTS_DIR=${ETHLINT_CONTRACTS_DIR}
+  #   volumes:
+  #     - ${TRUFFLE_PROJECT_PATH}:/app
+  #     - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
 
-  # https://github.com/crytic/eth-security-toolbox
-  eth-security-toolbox:
-    container_name: eth-ci.eth-security-toolbox
-    image: eth-ci.eth-security-toolbox
-    build:
-      context: ./tools/eth-security-toolbox
-    environment:
-      - SOLC_VERSION=${SOLC_VERSION}
-    volumes:
-      - ${TRUFFLE_PROJECT_PATH}:/home/ethsec/app
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/home/ethsec/logs:rw
+  # # https://github.com/crytic/eth-security-toolbox
+  # eth-security-toolbox:
+  #   container_name: eth-ci.eth-security-toolbox
+  #   image: eth-ci.eth-security-toolbox
+  #   build:
+  #     context: ./tools/eth-security-toolbox
+  #   environment:
+  #     - SOLC_VERSION=${SOLC_VERSION}
+  #   volumes:
+  #     - ${TRUFFLE_PROJECT_PATH}:/home/ethsec/app
+  #     - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/home/ethsec/logs:rw
 
   # https://github.com/trufflesuite/ganache-cli
   ganache:
@@ -37,31 +37,31 @@ services:
     volumes:
       - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
 
-  # https://github.com/eth-sri/securify
-  securify:
-    container_name: eth-ci.securify
-    image: eth-ci.securify
-    build:
-      context: ./tools/securify
-    command: securify --truffle
-    depends_on:
-      - truffle
-    volumes:
-      - ${TRUFFLE_PROJECT_PATH}:/project:rw
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+  # # https://github.com/eth-sri/securify
+  # securify:
+  #   container_name: eth-ci.securify
+  #   image: eth-ci.securify
+  #   build:
+  #     context: ./tools/securify
+  #   command: securify --truffle
+  #   depends_on:
+  #     - truffle
+  #   volumes:
+  #     - ${TRUFFLE_PROJECT_PATH}:/project:rw
+  #     - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
 
-  # https://github.com/protofire/solhint
-  solhint:
-    container_name: eth-ci.solhint
-    image: eth-ci.solhint
-    build:
-      context: ./tools/solhint
-    environment:
-      - SOLHINT_CONFIG_FILE=${SOLHINT_CONFIG_FILE}
-      - SOLHINT_CONTRACTS_EXECUTION_PATH=${SOLHINT_CONTRACTS_EXECUTION_PATH}
-    volumes:
-      - ${TRUFFLE_PROJECT_PATH}:/app
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+  # # https://github.com/protofire/solhint
+  # solhint:
+  #   container_name: eth-ci.solhint
+  #   image: eth-ci.solhint
+  #   build:
+  #     context: ./tools/solhint
+  #   environment:
+  #     - SOLHINT_CONFIG_FILE=${SOLHINT_CONFIG_FILE}
+  #     - SOLHINT_CONTRACTS_EXECUTION_PATH=${SOLHINT_CONTRACTS_EXECUTION_PATH}
+  #   volumes:
+  #     - ${TRUFFLE_PROJECT_PATH}:/app
+  #     - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
   
   # https://github.com/trufflesuite/truffle
   truffle:
@@ -73,6 +73,12 @@ services:
     tty: true
     depends_on:
       - ganache
+    environment:
+      - VOLUME=${TRUFFLE_PROJECT_PATH}
+      - DOCKER_USER: 0
+      - DOCKER_GROUP: 0
+      - HOST_USER_ID: 0
+      - HOST_GROUP_ID: 0
     volumes:
       # mount the docker sock from the host 
       # so the container can execute docker commands
