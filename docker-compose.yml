@@ -13,7 +13,7 @@ services:
       - ETHLINT_CONTRACTS_DIR=${ETHLINT_CONTRACTS_DIR}
     volumes:
       - ${TRUFFLE_PROJECT_PATH}:/app
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+      - ${TRUFFLE_PROJECT_PATH}/logs:/app/logs:rw
 
   # https://github.com/crytic/eth-security-toolbox
   eth-security-toolbox:
@@ -25,7 +25,7 @@ services:
       - SOLC_VERSION=${SOLC_VERSION}
     volumes:
       - ${TRUFFLE_PROJECT_PATH}:/home/ethsec/app
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/home/ethsec/logs:rw
+      - ${TRUFFLE_PROJECT_PATH}/logs:/home/ethsec/logs:rw
 
   # https://github.com/trufflesuite/ganache-cli
   ganache:
@@ -35,7 +35,7 @@ services:
       context: ./tools/ganache-cli
     command: ganache-cli ${GANACHE_CLI_FLAGS}
     volumes:
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+      - ${TRUFFLE_PROJECT_PATH}/logs:/app/logs:rw
 
   # https://github.com/eth-sri/securify
   securify:
@@ -48,7 +48,7 @@ services:
       - truffle
     volumes:
       - ${TRUFFLE_PROJECT_PATH}:/project:rw
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+      - ${TRUFFLE_PROJECT_PATH}/logs:/app/logs:rw
 
   # https://github.com/protofire/solhint
   solhint:
@@ -61,7 +61,7 @@ services:
       - SOLHINT_CONTRACTS_EXECUTION_PATH=${SOLHINT_CONTRACTS_EXECUTION_PATH}
     volumes:
       - ${TRUFFLE_PROJECT_PATH}:/app
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+      - ${TRUFFLE_PROJECT_PATH}/logs:/app/logs:rw
   
   # https://github.com/trufflesuite/truffle
   truffle:
@@ -73,9 +73,15 @@ services:
     tty: true
     depends_on:
       - ganache
+    environment:
+      - VOLUME=${TRUFFLE_PROJECT_PATH}
+      - DOCKER_USER=0
+      - DOCKER_GROUP=0
+      - HOST_USER_ID=0
+      - HOST_GROUP_ID=0
     volumes:
       # mount the docker sock from the host 
       # so the container can execute docker commands
       - /var/run/docker.sock:/var/run/docker.sock
       - ${TRUFFLE_PROJECT_PATH}:/app:rw
-      - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
+      - ${TRUFFLE_PROJECT_PATH}/logs:/app/logs:rw
