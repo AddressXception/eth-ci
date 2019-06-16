@@ -10,7 +10,7 @@ RUN mkdir -p /app/logs
 
 COPY . .
 
-COPY ../../common/configure-user.sh .
+#COPY ../../common/configure-user.sh .
 
 RUN chmod +x /configure-user.sh
 RUN chmod +x /entrypoint.sh
