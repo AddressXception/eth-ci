@@ -1,10 +1,5 @@
 #!/bin/sh
 
-echo "configuring user"
-
-echo "executing in dir ${VOLUME}"
-#chown -R $DOCKER_USER:$DOCKER_GROUP $VOLUME || true
-
 cd /app
 
 # clear the file
