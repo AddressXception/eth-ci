@@ -77,5 +77,5 @@ services:
       # mount the docker sock from the host 
       # so the container can execute docker commands
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${TRUFFLE_PROJECT_PATH}:/app
+      - ${TRUFFLE_PROJECT_PATH}:/app:rw
       - ${TRUFFLE_PROJECT_REPORT_OUTPUT_PATH}:/app/logs:rw
