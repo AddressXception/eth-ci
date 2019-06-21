@@ -16,16 +16,16 @@ services:
       - ${TRUFFLE_PROJECT_PATH}/logs:/app/logs:rw
 
   # https://github.com/crytic/eth-security-toolbox
-  eth-security-toolbox:
-    container_name: eth-ci.eth-security-toolbox
-    image: eth-ci.eth-security-toolbox
-    build:
-      context: ./tools/eth-security-toolbox
-    environment:
-      - SOLC_VERSION=${SOLC_VERSION}
-    volumes:
-      - ${TRUFFLE_PROJECT_PATH}:/home/ethsec/app
-      - ${TRUFFLE_PROJECT_PATH}/logs:/home/ethsec/logs:rw
+  # eth-security-toolbox:
+  #   container_name: eth-ci.eth-security-toolbox
+  #   image: eth-ci.eth-security-toolbox
+  #   build:
+  #     context: ./tools/eth-security-toolbox
+  #   environment:
+  #     - SOLC_VERSION=${SOLC_VERSION}
+  #   volumes:
+  #     - ${TRUFFLE_PROJECT_PATH}:/home/ethsec/app
+  #     - ${TRUFFLE_PROJECT_PATH}/logs:/home/ethsec/logs:rw
 
   # https://github.com/trufflesuite/ganache-cli
   ganache:
