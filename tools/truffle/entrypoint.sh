@@ -5,10 +5,6 @@ cd /app
 # clear the file
 echo -n "" > logs/truffle.log
 
-echo "building in ${VOLUME}"
-
-ls -al > logs/truffle.log
-
 echo " " | tee -a /app/logs/truffle.log
 echo "======================================" | tee -a logs/truffle.log
 echo "           Starting Truffle...        " | tee -a logs/truffle.log
